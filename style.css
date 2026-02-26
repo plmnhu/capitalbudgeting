@@ -1,0 +1,58 @@
+body {
+    font-family: Gotu;
+    padding: 22px;
+    background-color: rgb(247, 237, 225);
+}
+h1 {
+    text-align: center;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 8px;
+}
+
+input {
+    font-family: 'Gotu', sans-serif;
+    width: 80px;
+    padding: 6px 8px;
+
+    border: 1px solid #bbb;
+    border-radius: 6px;
+
+    background-color: white;
+
+    outline: none;
+}
+
+button {
+    padding: 8px 15px;
+    margin-top: 10px;
+    font: 16px Gotu;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    background-color:#b88e6a;
+}
+
+#tableArea {
+    margin-top: 20px;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 18px;
+}
+.top-inputs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
