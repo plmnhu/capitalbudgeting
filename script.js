@@ -23,8 +23,7 @@ function createTable() {
     }
 
     document.getElementById("tableArea").innerHTML = html;
-    document.getElementById("npvButton").style.display = "block";
-    document.getElementById("chooseButton").style.display = "block";
+    document.getElementById("resultButton").style.display = "block";
 }
 
 function calculateNPV() {
@@ -48,6 +47,108 @@ function calculateNPV() {
     }
 
     document.getElementById("npvResult").innerHTML = resultText;
+}
+
+function calculateIRR() {
+    let topics = document.getElementById("topics").value;
+    let years = document.getElementById("years").value;
+    let resultText = "";
+
+    for (let p = 0; p < topics; p++) {
+        let inflows = document.getElementsByClassName(`inflow_${p}`);
+        let outflows = document.getElementsByClassName(`outflow_${p}`);
+        let initial = parseFloat(outflows[0].value) || 0;
+        let cashFlows = [-initial];
+
+        for (let t = 0; t < years; t++) {
+            let inflow = parseFloat(inflows[t].value) || 0;
+            let outflow = parseFloat(outflows[t].value) || 0;
+            let net = inflow - outflow;
+            if (t === 0) {
+                net += initial;  // adjust for initial in outflow[0]
+            }
+            cashFlows.push(net);
+        }
+
+        let irr = findIRR(cashFlows);
+        if (irr !== null) {
+            resultText += `IRR Project ${p + 1} = ${irr.toFixed(2)}% <br>`;
+        } else {
+            resultText += `IRR Project ${p + 1} = Not found <br>`;
+        }
+    }
+
+    document.getElementById("irrResult").innerHTML = resultText;
+}
+
+function calculatePaybackPeriod() {
+    let topics = document.getElementById("topics").value;
+    let years = document.getElementById("years").value;
+    let resultText = "";
+
+    for (let p = 0; p < topics; p++) {
+        let inflows = document.getElementsByClassName(`inflow_${p}`);
+        let outflows = document.getElementsByClassName(`outflow_${p}`);
+        let initial = parseFloat(outflows[0].value) || 0;
+        let cashFlows = [-initial];
+
+        for (let t = 0; t < years; t++) {
+            let inflow = parseFloat(inflows[t].value) || 0;
+            let outflow = parseFloat(outflows[t].value) || 0;
+            let net = inflow - outflow;
+            if (t === 0) {
+                net += initial;  // adjust for initial in outflow[0]
+            }
+            cashFlows.push(net);
+        }
+
+        let payback = findPayback(cashFlows, initial);
+        if (payback === Infinity) {
+            resultText += `Payback Project ${p + 1} = Never <br>`;
+        } else {
+            resultText += `Payback Project ${p + 1} = ${payback.toFixed(2)} years <br>`;
+        }
+    }
+
+    document.getElementById("paybackResult").innerHTML = resultText;
+}
+
+function findPayback(cashFlows, initial) {
+    let cumulative = 0;
+    for (let t = 1; t < cashFlows.length; t++) {
+        cumulative += cashFlows[t];
+        if (cumulative >= initial) {
+            if (t === 1) return 1;
+            let prevCum = cumulative - cashFlows[t];
+            let fraction = (initial - prevCum) / cashFlows[t];
+            return t + fraction;
+        }
+    }
+    return Infinity;
+}
+
+function findIRR(cashFlows) {
+    let low = -0.99; // allow negative IRR
+    let high = 1;
+    let tolerance = 0.0001;
+    let maxIter = 100;
+
+    for (let iter = 0; iter < maxIter; iter++) {
+        let mid = (low + high) / 2;
+        let npv = 0;
+        for (let t = 0; t < cashFlows.length; t++) {
+            npv += cashFlows[t] / Math.pow(1 + mid, t + 1);
+        }
+        if (Math.abs(npv) < tolerance) {
+            return mid * 100;
+        }
+        if (npv > 0) {
+            low = mid;
+        } else {
+            high = mid;
+        }
+    }
+    return null;
 }
 
 function findBestCombination(projects, budget, years) {
@@ -123,8 +224,20 @@ function choosingProject() {
 
     let result = findBestCombination(projects, budget, years);
 
-    // ✅ Use = instead of += to avoid stacking old results
+    
     document.getElementById("projectResult").innerHTML =
-        `<br><br><b>Best Combination:</b> Project ${result.bestProjects}
+        `<b>Best Combination based on NPV:</b> ${result.bestProjects.length ? "Project " + result.bestProjects.join(", ") : "No projects can be funded"}
          <br><b>Total NPV:</b> ${result.bestNPV.toFixed(2)}`;
+}
+
+function calculateAll(){
+
+    calculateNPV();
+
+    calculateIRR();
+
+    calculatePaybackPeriod();
+
+    choosingProject();
+
 }

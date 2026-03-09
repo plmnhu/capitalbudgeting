@@ -6,6 +6,12 @@ body {
 h1 {
     text-align: center;
 }
+h2 {
+    text-align: center;
+    font-weight:lighter;
+    color: #555;
+    font-size: 16px;
+}
 
 table, th, td {
     border: 1px solid black;
@@ -34,6 +40,11 @@ button {
     border: 1px solid #bbb;
     border-radius: 6px;
     background-color:#E3D5CA;
+    align-items: center;
+    transition: 0.1s;
+}
+button:active {
+    transform:  scale(0.9);
 }
 
 #tableArea {
@@ -43,13 +54,19 @@ button {
 #result {
     margin-top: 20px;
     font-size: 18px;
+    align-items: center;
 }
 .top-inputs {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
-
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    text-align: center;
+}
 .input-group {
     display: flex;
     gap: 10px;

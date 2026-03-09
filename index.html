@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>NPV Calculator</title>
+    <title>Capital Budgeting Tools</title>
 
     <link href='https://fonts.googleapis.com/css?family=Gotu' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
@@ -10,22 +10,22 @@
 </head>
 
 <body>
-    <h1>NPV Calculator</h1>
-
+    <h1>Capital Budgeting</h1>
+    <h2>An interactive capital budgeting tool that calculates NPV, IRR, and Payback Period to evaluate and select the best investment projects.</h2>
     <div class="top-inputs">
 
         <div class="input-group">
-            <label>Total Budget:</label>
-            <input type="number" min="1" id="totalBudget" value="1000">
+            <label> Yearly Budget:</label>
+            <input type="number" min="1"id="totalBudget" value="1000">
         </div>
         <div class="input-group">
             <label>Number of Years:</label>
-            <input type="number" min="1" id="years" value="1">
+            <input type="number" min="1" step="1"` id="years" value="1">
         </div>
 
         <div class="input-group">
             <label>Number of Topics:</label>
-            <input type="number" min="1" id="topics" value="1">
+            <input type="number" min="1" step="1" id="topics" value="1">
         </div>
 
         <div class="input-group">
@@ -33,24 +33,23 @@
             <input type="number" min="0" max="100" id="rate" value="10">
         </div>
 
-        <div class="input-group">
-            <label>Confidence Rate (%):</label>
-            <input type="number" min="0" max="100" id="confidenceRate" value="95">
-        </div>
-
+        
     </div>
 
 
-
-    <button onclick="createTable()">Create Table</button>
+    <div class="button-container">
+        <button onclick="createTable()">Create Table</button>
+    </div>
 
     <div id="tableArea"></div>
 
     <br>
-
-    <button id="npvButton" onclick="calculateNPV()" style="display: none;">Calculate NPV</button>
+    <div class="button-container">
+    <button id="resultButton" onclick="calculateAll()" style="display: none;">Financial Analysis</button>
+    </div>
     <h3 id="npvResult"></h3>
-     <button id="chooseButton" onclick="choosingProject()" style="display: none;">Choose Best Combination</button>
+     <h3 id="irrResult"></h3>
+     <h3 id="paybackResult"></h3>
      <h3 id="projectResult"></h3>
     <script src="script.js"></script>
 
