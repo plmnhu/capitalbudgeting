@@ -129,7 +129,7 @@ function findPayback(cashFlows, initial) {
 
 function findIRR(cashFlows) {
     let low = -0.99; // allow negative IRR
-    let high = 1;
+    let high = 5;
     let tolerance = 0.0001;
     let maxIter = 100;
 
@@ -137,7 +137,7 @@ function findIRR(cashFlows) {
         let mid = (low + high) / 2;
         let npv = 0;
         for (let t = 0; t < cashFlows.length; t++) {
-            npv += cashFlows[t] / Math.pow(1 + mid, t + 1);
+            npv += cashFlows[t] / Math.pow(1 + mid, t );
         }
         if (Math.abs(npv) < tolerance) {
             return mid * 100;
@@ -239,5 +239,6 @@ function calculateAll(){
     calculatePaybackPeriod();
 
     choosingProject();
+
 
 }
